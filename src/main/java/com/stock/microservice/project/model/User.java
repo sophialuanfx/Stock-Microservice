@@ -3,14 +3,23 @@ package com.stock.microservice.project.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class User {
+    private int id;
     private String userName;
     private String company;
 
-    public User() {}
-
-    public User(String userName, String company) {
+    public User(int id, String userName, String company) {
+        this.id = id;
         this.userName = userName;
         this.company = company;
+    }
+
+    @JsonProperty
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @JsonProperty
@@ -34,7 +43,8 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "userName='" + userName + '\'' +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
                 ", company='" + company + '\'' +
                 '}';
     }
