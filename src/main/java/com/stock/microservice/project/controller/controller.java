@@ -10,18 +10,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stock.microservice.project.model.User;
-import com.stock.microservice.project.model.UserRegistry;
+import com.stock.microservice.project.model.userRegistry;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
 @RequestMapping("/users")
-
-public class Controller {
+public class controller {
 
     @Autowired
-    private UserRegistry userRegistry;
+    private userRegistry userRegistry;
 
     @PostMapping("/register")
     public String registerUser(@RequestParam String userName, @RequestParam String company) {

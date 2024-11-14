@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class UserRegistry {
+public class userRegistry {
 
     private List<User> users = new ArrayList<>();
     private static final String FILE_PATH = "users.json";
     private int nextId = 1;
 
-    public UserRegistry() {
+    public void UserRegistry() {
         try {
             loadUsersFromJson(); // Load existing users on startup
             if (!users.isEmpty()) {
