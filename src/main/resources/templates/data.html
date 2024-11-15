@@ -4,6 +4,8 @@
     <title>Stock Data</title>
 </head>
 <body>
+  <h1>Stock Realtime Data</h1>
+  <p>Please enter the stock name:</p>
     <form th:action="@{/page/data}" method="get">
         <input type="text" 
                name="symbol" 
@@ -17,8 +19,49 @@
         <p th:text="${error}"></p>
     </div>
 
-    <div th:if="${stockData}">
-        <pre th:text="${stockData}"></pre>
+    <div th:if="${stockDataMap}" class="stock-data">
+        <h2 th:text="'Stock Data for ' + ${symbol}"></h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Open</th>
+                    <th>High</th>
+                    <th>Low</th>
+                    <th>Close</th>
+                    <th>Volume</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="entry : ${stockDataMap}">
+                    <td th:text="${entry.key}"></td>
+                    <td th:text="${entry.value.open}"></td>
+                    <td th:text="${entry.value.high}"></td>
+                    <td th:text="${entry.value.low}"></td>
+                    <td th:text="${entry.value.close}"></td>
+                    <td th:text="${entry.value.volume}"></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
+
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
 </body>
 </html>

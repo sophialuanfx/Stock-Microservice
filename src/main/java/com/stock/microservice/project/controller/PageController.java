@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.stock.microservice.project.service.AlphaVantageService;
 import java.util.Map;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
+import java.util.*;
 
 
 @Controller
@@ -45,9 +48,31 @@ public class PageController {
         if (symbol != null && !symbol.isEmpty()) {
             try {
                 String stockData = stockService.getStockData(symbol);
-                model.addAttribute("stockData", stockData);
+                
+                // Parse JSON response
+                ObjectMapper mapper = new ObjectMapper();
+                JsonNode rootNode = mapper.readTree(stockData);
+                JsonNode timeSeriesData = rootNode.get("Time Series (5min)");
+                
+                // Convert to a more view-friendly format
+                Map<String, Map<String, String>> stockDataMap = new TreeMap<>(Collections.reverseOrder());
+                if (timeSeriesData != null && timeSeriesData.isObject()) {
+                    Iterator<Map.Entry<String, JsonNode>> fields = timeSeriesData.fields();
+                    while (fields.hasNext()) {
+                        Map.Entry<String, JsonNode> entry = fields.next();
+                        Map<String, String> values = new HashMap<>();
+                        values.put("open", entry.getValue().get("1. open").asText());
+                        values.put("high", entry.getValue().get("2. high").asText());
+                        values.put("low", entry.getValue().get("3. low").asText());
+                        values.put("close", entry.getValue().get("4. close").asText());
+                        values.put("volume", entry.getValue().get("5. volume").asText());
+                        stockDataMap.put(entry.getKey(), values);
+                    }
+                }
+                
+                model.addAttribute("stockDataMap", stockDataMap);
+                
             } catch (Exception e) {
-                e.printStackTrace();
                 model.addAttribute("error", "Error fetching stock data: " + e.getMessage());
             }
         }
