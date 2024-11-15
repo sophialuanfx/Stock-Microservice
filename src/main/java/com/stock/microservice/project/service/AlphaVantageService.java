@@ -33,7 +33,6 @@ public class AlphaVantageService {
                 if (body != null && body.contains("Error Message")) {
                     throw new RuntimeException("API Error: Invalid stock symbol");
                 }
-                
                 return body;
             } else {
                 throw new RuntimeException("Failed to fetch data: " + response.getStatusCode());
