@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Stock Data</title>
+</head>
+<body>
+    <form th:action="@{/page/data}" method="get">
+        <input type="text" 
+               name="symbol" 
+               th:value="${symbol}"
+               placeholder="Enter stock symbol (e.g., IBM)"
+               required/>
+        <button type="submit">Search</button>
+    </form>
+
+    <div th:if="${error}" style="color: red;">
+        <p th:text="${error}"></p>
+    </div>
+
+    <div th:if="${stockData}">
+        <pre th:text="${stockData}"></pre>
+    </div>
+</body>
+</html>
