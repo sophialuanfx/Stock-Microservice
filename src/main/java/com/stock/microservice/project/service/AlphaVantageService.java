@@ -15,9 +15,10 @@ public class AlphaVantageService {
     @Value("${alphavantage.api.key}")
     private String apiKey;
 
-    private static final String API_URL = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={symbol}&interval=5min&apikey={apikey}";
+    private static final String INTRADAY_URL = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={symbol}&interval=5min&apikey={apikey}";
+    private static final String MONTHLY_URL = "https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol={symbol}&apikey={apikey}";
 
-    public String getStockData(String symbol) {
+    public String getStockData(String symbol, String range) {
         try {
             RestTemplate restTemplate = new RestTemplate();
             
@@ -25,7 +26,13 @@ public class AlphaVantageService {
             params.put("symbol", symbol);
             params.put("apikey", apiKey);
             
-            ResponseEntity<String> response = restTemplate.getForEntity(API_URL, String.class, params);
+            String url = switch (range) {
+                case "1D" -> INTRADAY_URL;
+                case "1M" -> MONTHLY_URL;
+                default -> INTRADAY_URL;
+            };
+            
+            ResponseEntity<String> response = restTemplate.getForEntity(url, String.class, params);
             
             if (response.getStatusCode() == HttpStatus.OK) {
                 String body = response.getBody();
