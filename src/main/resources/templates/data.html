@@ -50,7 +50,7 @@
     <script th:if="${stockDataMap}" th:inline="javascript">
         const stockData = /*[[${stockDataMap}]]*/ {};
         
-        const timestamps = Object.keys(stockData);
+        const timestamps = Object.keys(stockData).reverse();
         const prices = timestamps.map(time => stockData[time].close);
         
         new Chart(document.getElementById('stockChart'), {
