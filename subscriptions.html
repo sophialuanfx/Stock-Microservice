@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Stock Subscriptions</title>
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Stock Subscriptions</h1>
+        
+        <!-- Show this when there are no subscriptions -->
+        <div th:if="${#lists.isEmpty(subscriptions)}" class="empty-state">
+            <h2>No Subscriptions Found</h2>
+            <p>There are currently no stock subscriptions to display.</p>
+        </div>
+        
+        <!-- Show table only when there are subscriptions -->
+        <table th:if="${not #lists.isEmpty(subscriptions)}">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>User ID</th>
+                    <th>Stock Symbol</th>
+                    <th>Notification Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="subscription : ${subscriptions}">
+                    <td th:text="${subscription.id}"></td>
+                    <td th:text="${subscription.userID}"></td>
+                    <td th:text="${subscription.stockSymbol}"></td>
+                    <td th:text="${subscription.notificationType}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

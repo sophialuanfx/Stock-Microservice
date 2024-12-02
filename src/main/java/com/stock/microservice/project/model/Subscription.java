@@ -1,42 +1,23 @@
-
 package com.stock.microservice.project.model;
 
 public class Subscription {
-    private Long id;
-    private Long userID;
-    private String stockSymbol;
-    private String notificationType;
+    private Long userId;
+    private String stockCode;
 
     // Getters and Setters
-    public Long getId() {
-        return id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public Long getUserID() {
-        return userID;
+    public String getStockCode() {
+        return stockCode;
     }
 
-    public void setUserID(Long userID) {
-        this.userID = userID;
-    }
-
-    public String getStockSymbol() {
-        return stockSymbol;
-    }
-
-    public void setStockSymbol(String stockSymbol) {
-        this.stockSymbol = stockSymbol;
-    }
-
-    public String getNotificationType() {
-        return notificationType;
-    }
-
-    public void setNotificationType(String notificationType) {
-        this.notificationType = notificationType;
+    public void setStockCode(String stockCode) {
+        this.stockCode = stockCode;
     }
 }

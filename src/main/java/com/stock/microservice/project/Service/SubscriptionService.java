@@ -1,9 +1,10 @@
-package main.java.com.stock.microservice.project.service;
+package com.stock.microservice.project.service;
 
 import com.stock.microservice.project.model.Subscription;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SubscriptionService {
@@ -13,13 +14,18 @@ public class SubscriptionService {
         subscriptions.add(subscription);
     }
 
+    public void removeSubscription(String stockCode) {
+        subscriptions.removeIf(subscription -> 
+            subscription.getStockCode().equals(stockCode));
+    }
+
+    public List<Subscription> getAllSubscriptions() {
+        return subscriptions;
+    }
+
     public List<Subscription> getSubscriptionsByUser(Long userId) {
-        List<Subscription> userSubscriptions = new ArrayList<>();
-        for (Subscription subscription : subscriptions) {
-            if (subscription.getUserID().equals(userId)) { // Correct method name here
-                userSubscriptions.add(subscription);
-            }
-        }
-        return userSubscriptions;
+        return subscriptions.stream()
+            .filter(subscription -> subscription.getUserId().equals(userId))
+            .collect(Collectors.toList());
     }
 }
