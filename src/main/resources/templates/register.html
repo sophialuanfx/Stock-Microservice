@@ -92,11 +92,10 @@
         const registerMessage = document.getElementById("register-message");
 
         if (username && company) {
-            // 清空提示信息
             registerMessage.innerText = "";
 
             // 使用AJAX发送POST请求到后端
-            fetch("/users/register", {
+            fetch("users/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded",

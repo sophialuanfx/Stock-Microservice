@@ -14,6 +14,7 @@ git pull origin    ##update origin to the latest
 
 git checkout "branch-name"
 
-git rev-parse --abbrev-ref HEAD   ##check the name of your current branch in 'local'(in cloud)
+user-registry service:
+https://cluster-2c8d8cde500bb1dc4ba10e8a347a9c45-0000.us-south.containers.appdomain.cloud/page/register
 
 

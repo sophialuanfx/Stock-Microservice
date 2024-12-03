@@ -1,13 +1,22 @@
-FROM maven:3-jdk-11-openj9 AS builder
+FROM maven:3.8.8-eclipse-temurin-17 AS build
 
-WORKDIR /Stock-Microservice
-COPY . /Stock-Microservice
+WORKDIR /stock-microservice
+COPY pom.xml .
+COPY src ./src
 
-RUN mvn package
+# Build the application
+RUN mvn clean package -DskipTests
 
-FROM adoptopenjdk:11-jre-openj9
-WORKDIR /Stock-Microservice
-COPY --from=builder /Stock-Microservice/target/Stock-Microservice-1.0-SNAPSHOT-fat.jar /Stock-Microservice/Stock-Microservice.jar
+# Runtime stage
+FROM eclipse-temurin:17-jre-alpine
 
-EXPOSE  8080
-ENTRYPOINT ["java","-jar","/Stock-Microservice/Stock-Microservice.jar"]
+WORKDIR /stock-microservice
+
+# Copy the built artifact from build stage
+COPY --from=build /stock-microservice/target/stock-microservice-0.0.1-SNAPSHOT.jar stock-microservice-0.0.1-SNAPSHOT.jar
+
+# Expose the correct port
+EXPOSE 8080
+
+# Run the application
+ENTRYPOINT ["java", "-jar", "stock-microservice-0.0.1-SNAPSHOT.jar"]
