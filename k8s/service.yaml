@@ -8,7 +8,6 @@ spec:
   type: ClusterIP
   selector:
     app: user-registry
-    tier: frontEnd
   ports:
     - protocol: TCP
       port: 8080
