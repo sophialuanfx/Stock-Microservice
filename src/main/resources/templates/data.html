@@ -23,28 +23,6 @@
     <div th:if="${stockDataMap}" class="stock-data">
         <h2 th:text="'Stock Data for ' + ${symbol}"></h2>
         <canvas id="stockChart"></canvas>
-        <!-- <table border="1">
-            <thead>
-                <tr>
-                    <th>Timestamp</th>
-                    <th>Open</th>
-                    <th>High</th>
-                    <th>Low</th>
-                    <th>Close</th>
-                    <th>Volume</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="entry : ${stockDataMap}">
-                    <td th:text="${entry.key}"></td>
-                    <td th:text="${entry.value.open}"></td>
-                    <td th:text="${entry.value.high}"></td>
-                    <td th:text="${entry.value.low}"></td>
-                    <td th:text="${entry.value.close}"></td>
-                    <td th:text="${entry.value.volume}"></td>
-                </tr>
-            </tbody>
-        </table> -->
     </div>
 
     <script th:if="${stockDataMap}" th:inline="javascript">
@@ -58,7 +36,7 @@
             data: {
                 labels: timestamps,
                 datasets: [{
-                    label: [[${symbol}]] + ' Stock Price',
+                    label: /*[[${symbol}]]*/ '' + ' Stock Price',
                     data: prices,
                     borderColor: 'rgb(75, 192, 192)',
                     tension: 0.1
