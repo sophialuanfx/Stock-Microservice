@@ -10,7 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class PageController {
     @GetMapping("/login")
     public String loginpage() {
-        return "loginpage"; // 返回的字符串是templates文件夹中的filename.html
+        return "login"; // 返回的字符串是templates文件夹中的filename.html
+    }
+
+    @GetMapping("/welcome")
+    public String welcomepage() {
+        return "welcome";
     }
 
 

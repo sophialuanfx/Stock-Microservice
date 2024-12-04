@@ -2,10 +2,16 @@ package com.stock.microservice.project.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
+
 public class User {
     private int id;
     private String userName;
     private String company;
+
+    // Default constructor
+    public User() {
+    }
 
     public User(int id, String userName, String company) {
         this.id = id;
