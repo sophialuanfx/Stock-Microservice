@@ -1,0 +1,59 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: stock-microservice
+  annotations:
+    kubernetes.io/ingress.class: "public-iks-k8s-nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: public-iks-k8s-nginx
+  tls:
+    - hosts:
+        - cluster-2c8d8cde500bb1dc4ba10e8a347a9c45-0000.us-south.containers.appdomain.cloud
+      secretName: cluster-2c8d8cde500bb1dc4ba10e8a347a9c45-0000
+  rules:
+    - host: cluster-2c8d8cde500bb1dc4ba10e8a347a9c45-0000.us-south.containers.appdomain.cloud
+      http:
+        paths:
+          - path: /page
+            pathType: Prefix
+            backend:
+              service:
+                name: user-registry
+                port:
+                  number: 8080
+          - path: /page/login
+            pathType: Prefix
+            backend:
+              service:
+                name: user-registry
+                port:
+                  number: 8080
+          - path: /api/service-discovery/
+            pathType: Prefix
+            backend:
+              service:
+                name: user-registry
+                port:
+                  number: 8080
+          - path: /users
+            pathType: Prefix
+            backend:
+              service:
+                name: user-registry
+                port:
+                  number: 8080
+          - path: /page/data
+            pathType: Prefix
+            backend:
+              service:
+                name: stock-performance
+                port:
+                  number: 8080
+          - path: /subscriptions
+            pathType: Prefix
+            backend:
+              service:
+                name: user-subscription
+                port:
+                  number: 8080
