@@ -27,6 +27,7 @@ public class AlphaVantageService {
         try {
             return fetchData(symbol, range, apiKey);
         } catch (Exception e) {
+            System.out.println("Primary api failed, using backup api");
             // If primary key fails, try backup key
             return fetchData(symbol, range, backupKey);
         }
