@@ -21,9 +21,9 @@ spec:
             - containerPort: 8080
           livenessProbe:
             httpGet:
-              path: /page/data
+              path: /subscriptions/manage
               port: 8080
-            initialDelaySeconds: 60
+            initialDelaySeconds: 30
             periodSeconds: 10
       imagePullSecrets:
         - name: all-icr-io #dont change
