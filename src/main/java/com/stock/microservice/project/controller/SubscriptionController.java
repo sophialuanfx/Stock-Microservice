@@ -1,6 +1,7 @@
 package com.stock.microservice.project.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +15,13 @@ public class SubscriptionController {
     @Autowired
     private SubscriptionService subscriptionService;
 
-    @GetMapping("/manage")
+    @GetMapping({"/", "/manage"})
     public String manageSubscriptions() {
+        return "redirect:/subscriptions/manage-page";
+    }
+
+    @GetMapping("/manage-page")
+    public String manageSubscriptionsPage() {
         return "manage-subscriptions";
     }
 

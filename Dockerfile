@@ -18,6 +18,7 @@ WORKDIR /user-subscription
 RUN addgroup -S spring && adduser -S spring -G spring
 
 COPY --from=build --chown=spring:spring /user-subscription/target/*.jar app.jar
+COPY --from=build --chown=spring:spring /user-subscription/src/main/resources/templates/ /user-subscription/templates/
 
 USER spring:spring
 
