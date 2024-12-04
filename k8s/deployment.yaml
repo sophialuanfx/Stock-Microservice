@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-subscription
+  labels:
+    app: user-subscription
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-subscription
+  template:
+    metadata:
+      labels:
+        app: user-subscription
+    spec:
+      containers:
+        - name: user-subscription
+          image: us.icr.io/group6-2/user-subscription:1
+          ports:
+            - containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /page/data
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 10
+      imagePullSecrets:
+        - name: all-icr-io #dont change
