@@ -92,10 +92,10 @@
         const registerMessage = document.getElementById("register-message");
 
         if (username && company) {
-            // 清空提示信息
+            // Clear previous messages
             registerMessage.innerText = "";
 
-            // 使用AJAX发送POST请求到后端
+            // Use AJAX to send POST request to backend
             fetch("/users/register", {
                 method: "POST",
                 headers: {
@@ -107,7 +107,14 @@
                 .then(result => {
                     registerMessage.classList.remove("error-message");
                     registerMessage.classList.add("success-message");
-                    registerMessage.innerText = result;  // 显示后端返回的结果信息
+                    registerMessage.innerText = result;  // Display backend response message
+                    
+                    // Add redirect after successful registration
+                    if (result.includes("successfully")) {
+                        setTimeout(() => {
+                            window.location.href = '/login';
+                        }, 1500); // Redirect after 1.5 seconds
+                    }
                 })
                 .catch(error => {
                     registerMessage.classList.remove("success-message");

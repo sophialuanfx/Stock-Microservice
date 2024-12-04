@@ -16,19 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.stock.microservice.project.model.User;
 import com.stock.microservice.project.model.userRegistry;
 
-
-
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,13 +30,16 @@ public class controller {
 
     @PostMapping("/register")
     public String registerUser(@RequestParam String userName, @RequestParam String company) {
+        if (userName == null || userName.trim().isEmpty() || company == null || company.trim().isEmpty()) {
+            return "Username and company are required.";
+        }
         User newUser = new User(0, userName, company);
         userRegistry.addUser(newUser);
         try {
             userRegistry.saveUsersToJson();
             return "User registered successfully!";
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Failed to save user data", e);
             return "Error saving user data.";
         }
     }
@@ -56,7 +47,7 @@ public class controller {
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestParam String userName, @RequestParam String company) {
         ObjectMapper mapper = new ObjectMapper();
-        String FILE_PATH = "users.json";
+        String FILE_PATH = "/tmp/userdata/users.json";
         File file = new File(FILE_PATH);
 
         if (!file.exists()) {

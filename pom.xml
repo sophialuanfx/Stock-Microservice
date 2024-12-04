@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.stock.microservice</groupId>
-	<artifactId>project</artifactId>
+	<artifactId>user-registry</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>project</name>
 	<description>project for microservice</description>
@@ -27,7 +27,7 @@
 		<url/>
 	</scm>
 	<properties>
-		<java.version>20.0.1</java.version>
+		<java.version>17</java.version>
 	</properties>
 	
 	<dependencies>
