@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stock-performance
+  labels:
+    app: stock-performance
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stock-performance
+  template:
+    metadata:
+      labels:
+        app: stock-performance
+    spec:
+      containers:
+        - name: stock-performance
+          image: us.icr.io/group6-2/stock-performance:1.2
+          ports:
+            - containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /page/data
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 10
+      imagePullSecrets:
+        - name: all-icr-io #dont change
