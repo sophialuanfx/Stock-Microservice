@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: stock-performance
-          image: us.icr.io/group6-2/stock-performance:1
+          image: us.icr.io/group6-2/stock-performance:1.2
           ports:
             - containerPort: 8080
           livenessProbe:
