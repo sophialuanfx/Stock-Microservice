@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-registry
+  labels:
+    app: user-registry
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: user-registry
+  template:
+    metadata:
+      labels:
+        app: user-registry
+    spec:
+      containers:
+        - name: user-registry
+          image: us.icr.io/group6-2/registry:1
+          ports:
+            - containerPort: 8080
+      imagePullSecrets:
+        - name: all-icr-io #dont change

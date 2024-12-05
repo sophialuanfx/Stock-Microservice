@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login and Register</title>
+    <title>Login</title>
     <style>
         body {
             display: flex;
@@ -118,7 +118,6 @@
                         alert("Login Successful!"); // Alert user
                         sessionStorage.setItem("username", username); // Store username in session storage
 
-                        // Optional: Redirect to another page if needed
                         window.location.href = '/page/welcome'; // Redirect to the Spring Boot managed endpoint
 
                     }
