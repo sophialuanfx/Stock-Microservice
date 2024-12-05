@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Stock Data</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1>Stock Realtime Data</h1>
+  <p>Please enter the stock name:</p>
+    <form th:action="@{/page/data}" method="get">
+        <input type="text" 
+               name="symbol" 
+               th:value="${symbol}"
+               placeholder="Enter stock symbol (e.g., IBM)"
+               required/>
+        <button type="submit">Search</button>
+    </form>
+
+    <div th:if="${error}" style="color: red;">
+        <p th:text="${error}"></p>
+    </div>
+
+    <div th:if="${stockDataMap}" class="stock-data">
+        <h2 th:text="'Stock Data for ' + ${symbol}"></h2>
+        <canvas id="stockChart"></canvas>
+    </div>
+
+    <script th:if="${stockDataMap}" th:inline="javascript">
+        const stockData = /*[[${stockDataMap}]]*/ {};
+        
+        const timestamps = Object.keys(stockData).reverse();
+        const prices = timestamps.map(time => stockData[time].close);
+        
+        new Chart(document.getElementById('stockChart'), {
+            type: 'line',
+            data: {
+                labels: timestamps,
+                datasets: [{
+                    label: /*[[${symbol}]]*/ '' + ' Stock Price',
+                    data: prices,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Time'
+                        },
+                        ticks: {
+                            maxRotation: 45,
+                            minRotation: 45,
+                            maxTicksLimit: 20
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Price'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+    <div th:if="${analysis}" class="analysis-section">
+        <h3>Stock Analysis (Based on Monthly Data)</h3>
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <h4>Expected Annual Return</h4>
+                <p th:text="${analysis.get('expectedReturn') != null ? #numbers.formatDecimal(analysis.get('expectedReturn'), 1, 2) + '%' : 'N/A'}"></p>
+            </div>
+            <div class="metric-card">
+                <h4>Risk Level</h4>
+                <p th:class="${'risk-indicator ' + #strings.toLowerCase(analysis.get('riskLevel'))}" 
+                   th:text="${analysis.get('riskLevel')}">
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        canvas {
+            max-width: 100%;
+            margin: 20px 0;
+        }
+        .range-selector {
+            margin: 20px 0;
+        }
+        
+        .range-selector select {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        
+        .analysis-section {
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .metric-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .metric-card h4 {
+            margin: 0 0 10px 0;
+            color: #666;
+        }
+        
+        .metric-card p {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .risk-indicator {
+            padding: 8px 16px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        
+        .risk-indicator.low {
+            background-color: #4caf50;
+            color: white;
+        }
+        
+        .risk-indicator.medium {
+            background-color: #ff9800;
+            color: white;
+        }
+        
+        .risk-indicator.high {
+            background-color: #f44336;
+            color: white;
+        }
+    </style>
+</body>
+</html>
