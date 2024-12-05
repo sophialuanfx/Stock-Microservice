@@ -18,6 +18,12 @@ public class PageController {
         return "welcome";
     }
 
+    @GetMapping("/serviceregistry")
+    public String serviceregistrypage() {
+        return "serviceregistry";
+    }
+
+
 
     @GetMapping("/home")
     public String homepage() {

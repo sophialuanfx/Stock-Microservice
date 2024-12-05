@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Service Status Table</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      .green {
+        color: green;
+      }
+      .red {
+        color: red;
+      }
+      #searchBox {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Service Status Table</h1>
+    <input
+      type="text"
+      id="searchBox"
+      placeholder="Search for a service..."
+      oninput="filterServices()"
+    />
+
+    <table id="serviceTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Service Name</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr data-name="user-registry">
+          <td>1</td>
+          <td>User Registry</td>
+          <td id="status-1">Checking...</td>
+          <td>
+            <button
+              onclick="goToService('https://cluster-2c8d8cde500bb1dc4ba10e8a347a9c45-0000.us-south.containers.appdomain.cloud/page/register')"
+            >
+              Go to Service
+            </button>
+          </td>
+        </tr>
+        <tr data-name="stock-performance">
+          <td>2</td>
+          <td>Stock Performance</td>
+          <td id="status-2">Checking...</td>
+          <td>
+            <button
+              onclick="goToService('https://cluster-2c8d8cde500bb1dc4ba10e8a347a9c45-0000.us-south.containers.appdomain.cloud/page/data')"
+            >
+              Go to Service
+            </button>
+          </td>
+        </tr>
+        <tr data-name="user-subscription">
+          <td>3</td>
+          <td>User Subscription</td>
+          <td id="status-3">Checking...</td>
+          <td>
+            <button
+              onclick="goToService('https://cluster-2c8d8cde500bb1dc4ba10e8a347a9c45-0000.us-south.containers.appdomain.cloud/subscriptions/manage')"
+            >
+              Go to Service
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <script>
+      const services = [
+        {
+          id: 1,
+          name: "user-registry",
+          url: "https://cluster-2c8d8cde500bb1dc4ba10e8a347a9c45-0000.us-south.containers.appdomain.cloud/page/register",
+        },
+        {
+          id: 2,
+          name: "stock-performance",
+          url: "https://cluster-2c8d8cde500bb1dc4ba10e8a347a9c45-0000.us-south.containers.appdomain.cloud/page/data",
+        },
+        {
+          id: 3,
+          name: "user-subscription",
+          url: "https://cluster-2c8d8cde500bb1dc4ba10e8a347a9c45-0000.us-south.containers.appdomain.cloud/subscriptions/manage",
+        },
+      ];
+
+      function checkServiceStatus() {
+        services.forEach((service) => {
+          fetch(service.url, {
+            method: "GET",
+          })
+            .then((response) => {
+              const statusCell = document.getElementById(
+                `status-${service.id}`
+              );
+
+              // 根据状态码设置颜色
+              if (response.status === 200) {
+                statusCell.textContent = "Green";
+                statusCell.className = "green";
+              } else {
+                statusCell.textContent = "Red";
+                statusCell.className = "red";
+              }
+            })
+            .catch(() => {
+              // 如果请求失败，设置为红色
+              const statusCell = document.getElementById(
+                `status-${service.id}`
+              );
+              statusCell.textContent = "Red";
+              statusCell.className = "red";
+              console.log("checking problem");
+            });
+        });
+      }
+
+      function filterServices() {
+        const searchValue = document
+          .getElementById("searchBox")
+          .value.toLowerCase();
+        const rows = document.querySelectorAll("#serviceTable tbody tr");
+        rows.forEach((row) => {
+          const serviceName = row.getAttribute("data-name").toLowerCase();
+          if (serviceName.includes(searchValue)) {
+            row.style.display = "";
+          } else {
+            row.style.display = "none";
+          }
+        });
+      }
+
+      function goToService(url) {
+        window.open(url, "_blank");
+      }
+
+      // 页面加载时自动检查服务状态
+      window.onload = checkServiceStatus;
+    </script>
+  </body>
+</html>
