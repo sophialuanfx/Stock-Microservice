@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: user-registry
-          image: us.icr.io/group6-2/registry:1
+          image: us.icr.io/group6-2/registry:2
           ports:
             - containerPort: 8080
       imagePullSecrets:

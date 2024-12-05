@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Slf4j
 public class PageController {
     
-    @Autowired
-    private ServiceDiscoveryController serviceDiscoveryController;
-    
     @GetMapping("/login")
     public String login() {
         // Verify service availability before rendering

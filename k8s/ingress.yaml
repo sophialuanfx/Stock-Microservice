@@ -22,20 +22,6 @@ spec:
                 name: user-registry
                 port:
                   number: 8080
-          - path: /page/login
-            pathType: Prefix
-            backend:
-              service:
-                name: user-registry
-                port:
-                  number: 8080
-          - path: /api/service-discovery/
-            pathType: Prefix
-            backend:
-              service:
-                name: user-registry
-                port:
-                  number: 8080
           - path: /users
             pathType: Prefix
             backend:
@@ -43,7 +29,7 @@ spec:
                 name: user-registry
                 port:
                   number: 8080
-          - path: /page/data
+          - path: /performance
             pathType: Prefix
             backend:
               service:

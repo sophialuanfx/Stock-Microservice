@@ -74,7 +74,7 @@
           <td id="status-2">Checking...</td>
           <td>
             <button
-              onclick="goToService('https://cluster-2c8d8cde500bb1dc4ba10e8a347a9c45-0000.us-south.containers.appdomain.cloud/page/data')"
+              onclick="goToService('https://cluster-2c8d8cde500bb1dc4ba10e8a347a9c45-0000.us-south.containers.appdomain.cloud/performance/data')"
             >
               Go to Service
             </button>
@@ -105,7 +105,7 @@
         {
           id: 2,
           name: "stock-performance",
-          url: "https://cluster-2c8d8cde500bb1dc4ba10e8a347a9c45-0000.us-south.containers.appdomain.cloud/page/data",
+          url: "https://cluster-2c8d8cde500bb1dc4ba10e8a347a9c45-0000.us-south.containers.appdomain.cloud/performance/data",
         },
         {
           id: 3,
@@ -124,7 +124,6 @@
                 `status-${service.id}`
               );
 
-              // 根据状态码设置颜色
               if (response.status === 200) {
                 statusCell.textContent = "Green";
                 statusCell.className = "green";
@@ -134,7 +133,6 @@
               }
             })
             .catch(() => {
-              // 如果请求失败，设置为红色
               const statusCell = document.getElementById(
                 `status-${service.id}`
               );
@@ -164,7 +162,6 @@
         window.open(url, "_blank");
       }
 
-      // 页面加载时自动检查服务状态
       window.onload = checkServiceStatus;
     </script>
   </body>
